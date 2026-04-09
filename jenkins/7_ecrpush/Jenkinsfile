@@ -59,10 +59,7 @@ pipeline {
                 }
                 }
             }        
-
-
             
-
         stage("Quality Gate") {
                 steps {
                 timeout(time: 1, unit: 'HOURS') {
@@ -98,8 +95,5 @@ pipeline {
                 sh 'docker rmi -f $(docker images -a -q)'
             }
         }      
-    
-            
-
     }
 }
