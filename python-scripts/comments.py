@@ -3,3 +3,7 @@
 """
 This is a multi-line comment in Python
 """
+
+'''
+This is also a multi-line comment in Python
+'''
