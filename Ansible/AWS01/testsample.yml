@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: Create key pair
+      ec2_key:
+        name: sample
+        region: us-east-1
+      register: keyout
+
+    - name: Print Private Key
+      debug:
+        var: keyout
+
+    - name: Save Private Key
+      copy:
+        content: "{{keyout.key.private_key}}"
+        dest: ./sample.pem
+      when: keyout.changed == True
