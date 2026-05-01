@@ -1,0 +1,29 @@
+- hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: Create key pair
+      ec2_key:
+        name: sample
+        region: us-east-1
+      register: keyout
+
+    - name: Print Private Key
+      debug:
+        var: keyout
+
+    - name: Save Private Key
+      copy:
+        content: "{{keyout.key.private_key}}"
+        dest: ./sample.pem
+      when: keyout.changed == True
+
+    - name: start an instance with a public IP address
+      amazon.aws.ec2_instance:
+        name: "ansible-instance"
+        key_name: "sample"
+        instance_type: t3.micro
+        security_group: default
+        image_id: ami-0ed094fb1304fd857
+        region: us-east-1
+        tags:
+          Environment: Testing
